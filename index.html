@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Savings & Interest Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .calculator-card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+        h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #34495e;
+            font-weight: 600;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 4px;
+            display: none;
+        }
+        .result-box h3 {
+            margin: 0 0 5px 0;
+            color: #2c3e50;
+        }
+        .result-total {
+            font-size: 24px;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .breakdown-list {
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 14px;
+            color: #555;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator-card">
+    <h2>Savings Calculator (3% Interest)</h2>
+    
+    <div class="input-group">
+        <label for="startingBalance">Starting Balance ($):</label>
+        <input type="number" id="startingBalance" placeholder="e.g. 1000" min="0" step="0.01">
+    </div>
+
+    <div class="input-group">
+        <label for="monthlyDeposit">Constant Monthly Deposit ($):</label>
+        <input type="number" id="monthlyDeposit" placeholder="e.g. 200" min="0" step="0.01">
+    </div>
+
+    <div class="input-group">
+        <label for="months">Number of Months:</label>
+        <input type="number" id="months" placeholder="e.g. 12" min="1" step="1">
+    </div>
+
+    <button onclick="calculateSavings()">Calculate Total</button>
+
+    <div class="result-box" id="resultBox">
+        <h3>Final Balance:</h3>
+        <div class="result-total" id="finalTotal">$0.00</div>
+        <p style="margin: 10px 0 5px 0; font-weight: bold;">Monthly Breakdown:</p>
+        <ol class="breakdown-list" id="breakdown"></ol>
+    </div>
+</div>
+
+<script>
+function calculateSavings() {
+    // Read input values
+    let balance = parseFloat(document.getElementById('startingBalance').value);
+    let deposit = parseFloat(document.getElementById('monthlyDeposit').value);
+    let months = parseInt(document.getElementById('months').value);
+    
+    // Simple validation
+    if (isNaN(balance) || isNaN(deposit) || isNaN(months) || balance < 0 || deposit < 0 || months < 1) {
+        alert("Please enter valid positive numbers in all fields.");
+        return;
+    }
+
+    const interestRate = 0.03; // 3%
+    let breakdownHtml = "";
+
+    // Run the calculation loop
+    for (let m = 1; m <= months; m++) {
+        let interest = balance * interestRate;
+        balance = balance + interest + deposit;
+        
+        breakdownHtml += `<li>Month ${m}: +$${interest.toFixed(2)} Interest | Balance: $${balance.toFixed(2)}</li>`;
+    }
+
+    // Display the results
+    document.getElementById('finalTotal').innerText = `$${balance.toFixed(2)}`;
+    document.getElementById('breakdown').innerHTML = breakdownHtml;
+    document.getElementById('resultBox').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
