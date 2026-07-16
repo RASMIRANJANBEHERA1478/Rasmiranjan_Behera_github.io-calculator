@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="or">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monthly Savings & Custom Interest Calculator</title>
+    <title>ସଞ୍ଚୟ ଏବଂ ସୁଧ ହିସାବ କାଲକୁଲେଟର</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -29,6 +29,7 @@
             text-align: center;
             border-bottom: 2px solid #27ae60;
             padding-bottom: 10px;
+            font-size: 22px;
         }
         .input-group {
             margin-bottom: 15px;
@@ -54,7 +55,7 @@
             padding: 12px;
             border: none;
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             transition: background 0.2s;
@@ -93,66 +94,66 @@
 <body>
 
 <div class="calculator-card">
-    <h2>Savings & Custom Interest Calculator</h2>
+    <h2>ସଞ୍ଚୟ ଏବଂ ସୁଧ ହିସାବ କାଲକୁଲେଟର</h2>
     
     <div class="input-group">
-        <label for="startingBalance">Starting Balance (₹):</label>
-        <input type="number" id="startingBalance" placeholder="e.g. 10000" min="0" step="0.01">
+        <label for="startingBalance">ଆରମ୍ଭ ବାଲାନ୍ସ (₹):</label>
+        <input type="number" id="startingBalance" placeholder="ଯେପରିକି: 10000" min="0" step="0.01">
     </div>
 
     <div class="input-group">
-        <label for="monthlyDeposit">Constant Monthly Deposit (₹):</label>
-        <input type="number" id="monthlyDeposit" placeholder="e.g. 2000" min="0" step="0.01">
+        <label for="monthlyDeposit">ପ୍ରତି ମାସର ଜମା (₹):</label>
+        <input type="number" id="monthlyDeposit" placeholder="ଯେପରିକି: 2000" min="0" step="0.01">
     </div>
 
     <div class="input-group">
-        <label for="interestRate">Monthly Interest Rate (%):</label>
-        <input type="number" id="interestRate" placeholder="e.g. 3" min="0" step="0.01">
+        <label for="interestRate">ମାସିକ ସୁଧ ହାର (%):</label>
+        <input type="number" id="interestRate" placeholder="ଯେପରିକି: 3" min="0" step="0.01">
     </div>
 
     <div class="input-group">
-        <label for="months">Number of Months:</label>
-        <input type="number" id="months" placeholder="e.g. 12" min="1" step="1">
+        <label for="months">ମାସ ସଂଖ୍ୟା (Months):</label>
+        <input type="number" id="months" placeholder="ଯେପରିକି: 12" min="1" step="1">
     </div>
 
-    <button onclick="calculateSavings()">Calculate Total</button>
+    <button onclick="calculateSavings()">ହିସାବ କରନ୍ତୁ</button>
 
     <div class="result-box" id="resultBox">
-        <h3>Final Balance:</h3>
+        <h3>ମୋଟ ଟଙ୍କା (Final Balance):</h3>
         <div class="result-total" id="finalTotal">₹0.00</div>
-        <p style="margin: 10px 0 5px 0; font-weight: bold;">Monthly Breakdown:</p>
+        <p style="margin: 10px 0 5px 0; font-weight: bold;">ମାସିକ ହିସାବର ବିବରଣୀ:</p>
         <ol class="breakdown-list" id="breakdown"></ol>
     </div>
 </div>
 
 <script>
 function calculateSavings() {
-    // Read input values
+    // ଇନପୁଟ୍ ତଥ୍ୟ ଗ୍ରହଣ କରିବା
     let balance = parseFloat(document.getElementById('startingBalance').value);
     let deposit = parseFloat(document.getElementById('monthlyDeposit').value);
     let interestInput = parseFloat(document.getElementById('interestRate').value);
     let months = parseInt(document.getElementById('months').value);
     
-    // Simple validation
+    // ଭାଲିଡେସନ୍ ଯାଞ୍ଚ କରିବା
     if (isNaN(balance) || isNaN(deposit) || isNaN(interestInput) || isNaN(months) || 
         balance < 0 || deposit < 0 || interestInput < 0 || months < 1) {
-        alert("Please enter valid positive numbers in all fields.");
+        alert("ଦୟାକରି ସମସ୍ତ ଘରେ ସଠିକ୍ ସଂଖ୍ୟା ଲେଖନ୍ତୁ।");
         return;
     }
 
-    // Convert input percentage (e.g., 3) to decimal (0.03)
+    // ପ୍ରତିଶତକୁ ଦଶମିକରେ ପରିଣତ କରିବା
     const interestRate = interestInput / 100; 
     let breakdownHtml = "";
 
-    // Run the calculation loop
+    // ହିସାବ ଲୁପ୍
     for (let m = 1; m <= months; m++) {
         let interest = balance * interestRate;
         balance = balance + interest + deposit;
         
-        breakdownHtml += `<li>Month ${m}: +₹${interest.toFixed(2)} Interest | Balance: ₹${balance.toFixed(2)}</li>`;
+        breakdownHtml += `<li>ମାସ ${m}: +₹${interest.toFixed(2)} ସୁଧ | ମୋଟ ବାଲାନ୍ସ: ₹${balance.toFixed(2)}</li>`;
     }
 
-    // Display the results
+    // ଫଳାଫଳ ପ୍ରଦର୍ଶନ କରିବା
     document.getElementById('finalTotal').innerText = `₹${balance.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     document.getElementById('breakdown').innerHTML = breakdownHtml;
     document.getElementById('resultBox').style.display = 'block';
